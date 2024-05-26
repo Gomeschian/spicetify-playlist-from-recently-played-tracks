@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Playlist from Recently Played Tracks",
+    "description": "Creates a playlist of the user's 50 most recently played tracks per the Spotify Web API's Get Recently Played Tracks endpoint.",
+    "preview": "sample1.png",
+    "main": "recentTrackPlaylist.js",
+    "readme": "README.md"
+  }
+]
