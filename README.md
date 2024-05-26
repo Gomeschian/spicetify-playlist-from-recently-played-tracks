@@ -1,7 +1,5 @@
 # Spicetify Playlist from Recently Played Tracks
 
-## Description
-
 Spicetify extension that creates a playlist of the user's 50 most recently played tracks per the Spotify Web API's Get Recently Played Tracks endpoint (https://developer.spotify.com/documentation/web-api/reference/get-recently-played). One-click button that sits on the top bar.
 
 Icon used is "Activity Log Icon" from UXWing: https://uxwing.com/activity-log-icon/
