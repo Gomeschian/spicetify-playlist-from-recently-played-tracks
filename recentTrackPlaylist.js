@@ -1,21 +1,29 @@
 (function playlistFromRecentlyPlayedTracks() {
-  const {
-    CosmosAsync,
-
-    URI,
-  } = Spicetify;
-  if (!(CosmosAsync && URI)) {
+  const { Platform, CosmosAsync } = Spicetify;
+  if (!(Platform && CosmosAsync)) {
     setTimeout(playlistFromRecentlyPlayedTracks, 300);
     return;
   }
+  // Icon - 'Activity Log Icon' from https://uxwing.com/activity-log-icon/
+  const CONVERT_ICON = `
+  <?xml version="1.0" encoding="utf-8"?>
+  <svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 323 512.53">
+  <path fill-rule="nonzero" d="M175.75 137.25c-8.53-1.25-17.91-1.5-26.38-1.5-8.47 0-16.63 2.5-24.47 7.05-7.83 4.55-10.53 11.35-10.53 18.35 0 8.53 2.53 16.62 7.05 24.47 4.53 7.83 11.25 10.52 11.25 18.35 0 8.53-2.53 16.62-7.05 24.47-4.53 7.83-11.25 10.52-11.25 18.35zm-11.17 15.5c-6.47-1.25-11.47-1.5-16.22-1.5-8.53 0-16.63 2.5-24.47 7.05-7.83 4.55-10.53 11.35-10.53 18.35 0 8.53 2.53 16.62 7.05 24.47 4.53 7.83 11.25 10.52 11.25 18.35z"/>
+  </svg>
+ `;
+  new Spicetify.Topbar.Button(
+    "Playlist from Recently Played Tracks",
+    CONVERT_ICON,
+    compileHistoryPlaylist,
+    false
+  );
 
   const MAX_RECENT_TRACKS_REQUESTABLE = 50; // Spotify Get Recently Played API max tracks per request (https://developer.spotify.com/documentation/web-api/reference/get-recently-played)
   const API_DELAY = 5000; // Artificial delay in milliseconds between API calls
 
-  const buttontxt = "Make playlist from recently played tracks";
-
   async function compileHistoryPlaylist() {
     // Definitions
+
     const timeStamp = new Date().getTime(); // Current time as a unicode timestamp
     const outputTimeStamp = new Date(timeStamp).toLocaleString(); // Output time as date and time
 
@@ -94,30 +102,4 @@
         );
       });
   }
-
-  function shouldDisplayContextMenu(uris) {
-    if (uris.length > 1) {
-      return false;
-    }
-
-    const uri = uris[0];
-    const uriObj = Spicetify.URI.fromString(uri);
-
-    if (
-      uriObj.type === Spicetify.URI.Type.PLAYLIST_V2 ||
-      uriObj.type === Spicetify.URI.Type.TRACK
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  const cntxMenu = new Spicetify.ContextMenu.Item(
-    buttontxt,
-    compileHistoryPlaylist,
-    shouldDisplayContextMenu
-  );
-
-  cntxMenu.register();
 })();
