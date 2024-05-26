@@ -9,7 +9,7 @@ Icon used is "Activity Log Icon" from UXWing: https://uxwing.com/activity-log-ic
 
 ## Manual Installation
 
-1. Install Spicetify: [https://spicetify.app/docs/installation](https://spicetify.app/docs/installation)
+1. Install Spicetify: (https://spicetify.app/docs/getting-started)
 2. Download recentTrackPlaylist.js and put it in the Spicetify Extensions folder (https://spicetify.app/docs/advanced-usage/extensions)
 3. Open a terminal and run: spicetify config extensions recentTrackPlaylist.js
 4. In the terminal, run: spicetify apply
