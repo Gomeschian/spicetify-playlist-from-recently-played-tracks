@@ -1,7 +1,7 @@
-(function playlistFromRecentlyPlayedTracks() {
+(function recentTrackPlaylist() {
   const { Platform, CosmosAsync } = Spicetify;
   if (!(Platform && CosmosAsync)) {
-    setTimeout(playlistFromRecentlyPlayedTracks, 300);
+    setTimeout(recentTrackPlaylist, 300);
     return;
   }
   // Icon - 'Activity Log Icon' from https://uxwing.com/activity-log-icon/
@@ -14,14 +14,14 @@
   new Spicetify.Topbar.Button(
     "Playlist from Recently Played Tracks",
     CONVERT_ICON,
-    compileHistoryPlaylist,
+    makeRecentTrackPlaylist,
     false
   );
 
   const MAX_RECENT_TRACKS_REQUESTABLE = 50; // Spotify Get Recently Played API max tracks per request (https://developer.spotify.com/documentation/web-api/reference/get-recently-played)
   const API_DELAY = 5000; // Artificial delay in milliseconds between API calls
 
-  async function compileHistoryPlaylist() {
+  async function makeRecentTrackPlaylist() {
     // Definitions
 
     const timeStamp = new Date().getTime(); // Current time as a unicode timestamp
@@ -67,7 +67,7 @@
       return response;
     }
 
-    async function addRecentTracksToPlaylist() {
+    async function addRecentTracksToNewPlaylist() {
       let recentlyPlayedTrackURIs = await getRecentlyPlayedTrackURIs();
 
       const historyPlaylist = await createEmptyPlaylist();
@@ -91,7 +91,7 @@
     );
     await new Promise((resolve) => setTimeout(resolve, API_DELAY));
 
-    addRecentTracksToPlaylist()
+    addRecentTracksToNewPlaylist()
       .then(() => {
         Spicetify.showNotification("Made recently played tracks playlist");
       })
